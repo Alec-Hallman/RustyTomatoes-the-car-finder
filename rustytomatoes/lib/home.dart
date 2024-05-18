@@ -4,7 +4,8 @@ import 'theme.dart';
 import 'reviews.dart';
 import 'cardetails.dart';
 import 'reviewclass.dart';
-
+import 'postmaker.dart';
+String dataBaseURL = 'https://us-east-1.aws.data.mongodb-api.com/app/data-fjjgdws/endpoint/data/v1';
 Car carInformation = Car();
 var filterOptions = carInformation.information;
 final Map<String, dynamic> filterValues = {
@@ -54,7 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: AppColors.primaryColor),
             ),
             const SizedBox(height: 40),
-            const TextField(
+            Row( mainAxisAlignment: MainAxisAlignment.center, children: [
+              const SizedBox(width: 400, child: TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -62,10 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 hintText: 'Don\'t know where to start? Try this!',
               ),
             ),
+            ),
             const SizedBox(height: 10),
             Container(
-              height: 100,
-              width: 100,
+              height: 70,
+              width: 70,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 color: AppColors.charcoal,
@@ -102,11 +105,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text(
                     'Filter',
                     style: TextStyle(
-                        color: AppColors.secondaryColor, fontSize: 30),
+                        color: AppColors.secondaryColor, fontSize: 19),
                   ),
                 ),
               ),
             ),
+            ],),
+            
             const SizedBox(
               height: 70,
               child: Text(
@@ -184,7 +189,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.all(Radius.circular(20))),
                         child: const Icon(Icons.home))),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const CreatePage(title: 'make a post')));
+                    },
                     child: Container(
                         width: 50,
                         height: 50,
@@ -231,6 +239,7 @@ class FilterWidget extends StatelessWidget {
                               value: index + 1,
                               child: Text((index + 1).toString()));
                         }),
+                        value: 1,
                         onChanged: (int? newValue) {
                           filterValues[filterOptions[index]] = newValue;
                         }),
@@ -245,7 +254,7 @@ class FilterWidget extends StatelessWidget {
                         width: 100,
                         child: TextField(
                             decoration: InputDecoration(
-                                hintText: filterOptions[index].toString()),
+                              hintText: filterOptions[index].toString()),
                             onSubmitted: (String value) {
                               filterValues[filterOptions[index]] = value;
                             })),

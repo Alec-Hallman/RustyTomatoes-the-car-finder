@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -21,14 +22,39 @@ class _CreateState extends State<CreatePage> {
     super.initState();
   }
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar( title: const Text('How has your car experience been?')),
-      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(height: 100, width: 100, child: TextField())
-      ],),
-    );
-  }
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('How has your car experience been?'),
+    ),
+    body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 400,),
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.all(10), // Add padding for spacing
+            children: const [
+              TextField(
+                maxLines: null, // Allow unlimited lines
+                keyboardType: TextInputType.multiline, // Enable multiline input
+                decoration: InputDecoration(
+                  hintText: 'Type your post here!',
+                  border: OutlineInputBorder(), // Add border for visual separation
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(width: 100, 
+        height: 50, 
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)), 
+        color: AppColors.green),
+        child: TextButton(onPressed: () { Navigator.pop(context); },
+        child:const Text('Submit', style: TextStyle(color: AppColors.charcoal),))),
+        SizedBox(height: 20),
+      ],
+    ),
+  );
 }
-
-
+}

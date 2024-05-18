@@ -5,6 +5,7 @@ import 'reviews.dart';
 import 'cardetails.dart';
 import 'reviewclass.dart';
 import 'postmaker.dart';
+import 'profile.dart';
 String dataBaseURL = 'https://us-east-1.aws.data.mongodb-api.com/app/data-fjjgdws/endpoint/data/v1';
 Car carInformation = Car();
 var filterOptions = carInformation.information;
@@ -119,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.green),
+                    color: AppColors.accentColor),
               ),
             ),
             Expanded(
@@ -201,7 +202,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.all(Radius.circular(20))),
                         child: const Icon(Icons.add_circle_outline_outlined))),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage(title: 'profile')));
+                    },
                     child: Container(
                         width: 50,
                         height: 50,

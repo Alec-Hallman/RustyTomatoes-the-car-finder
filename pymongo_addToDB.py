@@ -88,7 +88,7 @@ def create_and_add_car(dbname, user_id, car_id, car_make, car_model, car_doors=N
 
 # %% add review
 
-def create_and_add_rev(dbname, car_id, rev_id, rev_review):
+def create_and_add_rev(dbname, user_id, car_id,rev_id, rev_review):
     
     # db_name -> the name of database to open
     # user_id -> user id
@@ -96,30 +96,36 @@ def create_and_add_rev(dbname, car_id, rev_id, rev_review):
     # user_pass -> the user's password
     
     # opens DB
+    collection_user = dbname["user"]
     collection_car = dbname["car"]
     collection_name = dbname["review"]
     
     # create item
     item = {
+      "user_id" : user_id,
       "car_id" : car_id,
       "rev_id" : rev_id,
       "rev_review" : rev_review
     
     }
     
-    # check if car already exists in user portfolio
-    df_checker = DataFrame(collection_car.find({"car_id" : car_id}))
+    # check if review already exists in car portfolio
+    df_checker = DataFrame(collection_user.find({"user_id" : user_id}))
     if df_checker.empty == True:
-        print("Car DNE")
+        print("User DNE")
     else:
-        df_checker = DataFrame(collection_name.find({"rev_id" : rev_id}))
+        df_checker = DataFrame(collection_car.find({"car_id" : car_id}))
         if df_checker.empty == True:
-            collection_name.insert_one(item)
+            print("Car DNE")
         else:
-            print("Review already exists")
+            df_checker = DataFrame(collection_name.find({"rev_id" : rev_id}))
+            if df_checker.empty == True:
+                collection_name.insert_one(item)
+            else:
+                print("Review already exists")
 
 # %% run stuff
 
 create_and_add_user(dbname, "USR00004", "Garfield Cat", "Gogurt123")
 create_and_add_car(dbname, "USR00004", "CAR00004", "Mercedes-Benz", "S 500")
-create_and_add_rev(dbname, "CAR00004", "REV00004", "Meow meow meeeeoooooow....hkhkkkkkhkkhk.....meow")
+create_and_add_rev(dbname, "USR00004", "CAR00004","REV00004", "Meow meow meeeeoooow....hhhkhkhkhkhhkhkkk....meow")

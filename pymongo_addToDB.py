@@ -43,7 +43,7 @@ def create_and_add_user(dbname, user_id, user_name, user_pass):
 
 def create_and_add_car(dbname, user_id, car_id, car_make, car_model, car_doors=None, car_price=None, car_engine_type=None,
                         car_engine_size=None, car_year=None, car_body_type=None, car_drivetrain=None, car_transmission=None, car_seats=None,
-                        car_classification=None, car_colour=None, car_interior_fabric=None):
+                        car_classification=None, car_colour=None, car_interior_fabric=None, car_photo=None):
     
     # db_name -> the name of database to open
     # user_id -> user id
@@ -71,7 +71,8 @@ def create_and_add_car(dbname, user_id, car_id, car_make, car_model, car_doors=N
       "car_seats" : car_seats,
       "car_classification" : car_classification,
       "car_colour" : car_colour,
-      "car_interior_fabric" : car_interior_fabric
+      "car_interior_fabric" : car_interior_fabric,
+      "car_photo" : car_photo
     
     }
     
@@ -88,7 +89,7 @@ def create_and_add_car(dbname, user_id, car_id, car_make, car_model, car_doors=N
 
 # %% add review
 
-def create_and_add_rev(dbname, user_id, car_id,rev_id, rev_review):
+def create_and_add_rev(dbname, user_id, car_id,rev_id, rev_review, rev_date):
     
     # db_name -> the name of database to open
     # user_id -> user id
@@ -105,7 +106,8 @@ def create_and_add_rev(dbname, user_id, car_id,rev_id, rev_review):
       "user_id" : user_id,
       "car_id" : car_id,
       "rev_id" : rev_id,
-      "rev_review" : rev_review
+      "rev_review" : rev_review,
+      "rev_date" : rev_date
     
     }
     
@@ -126,9 +128,12 @@ def create_and_add_rev(dbname, user_id, car_id,rev_id, rev_review):
 
 # %% run stuff
 
-create_and_add_user(dbname, "USR00004", "Garfield Cat", "Gogurt123")
-create_and_add_car(dbname, "USR00004", "CAR00004", "Mercedes-Benz", "S 500")
-create_and_add_rev(dbname, "USR00004", "CAR00004","REV00004", "Meow meow meeeeoooow....hhhkhkhkhkhhkhkkk....meow")
+#create_and_add_user(dbname, "USR00005", "Harman Bains", "66Degrees")
+create_and_add_car(dbname, "USR00001", "CAR00010", "Kia", "Coup",car_doors=4, car_photo="URL")
+create_and_add_car(dbname, "USR00001", "CAR00002", "Mercedes-Benz", "S 500",car_doors=4,car_photo="URL")
+create_and_add_car(dbname, "USR00001", "CAR00004", "Honda", "Civic",car_doors=4,car_photo="URL")
+create_and_add_car(dbname, "USR00001", "CAR00001", "Toyota", "Corolla",car_doors=4,car_photo="URL")
+create_and_add_rev(dbname, "USR00003", "CAR00001","REV00011", "Review", "2024-05-18")
 
 # %% add random user
 

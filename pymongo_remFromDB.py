@@ -56,6 +56,6 @@ def delete_car(dbname, car_id):
     
 # %% run stuff
 
-#delete_rev(dbname, "REV00004")
+#delete_rev(dbname, "REV00011")
 #delete_car(dbname, "CAR00004")
-delete_user(dbname, "USR00004")
+delete_user(dbname, "USR00005")

@@ -129,3 +129,31 @@ def create_and_add_rev(dbname, user_id, car_id,rev_id, rev_review):
 create_and_add_user(dbname, "USR00004", "Garfield Cat", "Gogurt123")
 create_and_add_car(dbname, "USR00004", "CAR00004", "Mercedes-Benz", "S 500")
 create_and_add_rev(dbname, "USR00004", "CAR00004","REV00004", "Meow meow meeeeoooow....hhhkhkhkhkhhkhkkk....meow")
+
+# %% add random user
+
+import random as rnd
+
+_user = "USR"+str(rnd.randint(10000, 99999))
+
+create_and_add_user(dbname, _user, "TestName", "TestPass")
+
+# %% add random car
+
+_carMakes = ["Volvo","Toyota","Ford","BMW","Kia"]
+_carModels = ["F150","Alaska","Century","Corolla","Land Cruiser"]
+
+_car = "CAR"+str(rnd.randint(10000, 99999))
+
+create_and_add_car(dbname, _user, _car, rnd.choice(_carMakes), rnd.choice(_carModels),car_price=rnd.randint(10000, 100000),car_year=rnd.randint(1990, 2024))
+
+# %% add random review
+
+_review = "REV"+str(rnd.randint(10000, 99999))
+
+_randReviews = ["Good car. Had it for a while now and it handles milage like a champ. Havent had to take it to the 'chanic for anything non standard",
+                "Had this car for a while now, its terrible. I've had to take it into the machanic now 6 times because it's broken down so many times. As someone who relies on this car for their family I would not recommend.",
+                "Update: had to take the car into the mechanic for the first time today which is shocking since I got it way back in may last year! Rides great and has only broken down the one time which is shocking since I've put this car through some abuse lol",
+                "Had to get the car reapolstered today, was a bit costly but from the damage my kids have done it's like i'm looking at a new car lol. This car has been a real help with my family of 6, I couldn't get through the day without it!"]
+
+create_and_add_rev(dbname, _user, _car, _review, rnd.choice(_randReviews))

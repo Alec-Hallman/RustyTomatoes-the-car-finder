@@ -1,11 +1,11 @@
 class Car{
-  int carid = 0;
+  String carid = '';
   int userid = 0;
   int cardoors = 0;
-  int seats = 0;
-  int carprice = 0;
+  String seats = "";
   int carenginesize = 0;
-  int caryear = 0000;
+  String carprice = '';
+  String caryear = '';
   String carMake = '';
   String carmodel = '';
   String carenginetype = '';
@@ -17,5 +17,5 @@ class Car{
   String carPhoto = '';
   String carInteriorfabric = '';
 
-  List<String> information = ['number of doors', 'number of seats', 'price', 'engine size', 'year', 'make', 'model', 'engine type', 'body type', 'drive train', 'transmission', 'class', 'colour'];
+  List<String> information = ['number of doors', 'engine size', 'number of seats', 'price', 'year', 'make', 'model', 'engine type', 'body type', 'drive train', 'transmission', 'class', 'colour'];
 }

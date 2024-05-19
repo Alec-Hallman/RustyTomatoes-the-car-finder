@@ -11,8 +11,8 @@ import 'reviewclass.dart';
 String name = '{error. Name should go here}';
 CarDisplay car = CarDisplay();
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.title});
-
+  const ProfilePage({super.key, required this.title, required this.userName});
+  final String userName;
   final String title;
 
   @override
@@ -23,6 +23,7 @@ class _ProfileState extends State<ProfilePage> {
   @override
   void initState(){
     super.initState();
+    name = widget.userName;
     updateCar();
   }
   @override
@@ -52,10 +53,10 @@ Widget build(BuildContext context) {
         centerTitle: true, // This ensures the title is centered within the AppBar
       ),
     body: Column(children: [
-      const SizedBox(height: 20),
+      const SizedBox(height: 10),
       Row( mainAxisAlignment: MainAxisAlignment.center, children: [Container( height: 150, width: 150, decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(50)), color: AppColors.green), child: const Icon(Icons.person, size: 100))]),
       Text('$name', style: const TextStyle(color: AppColors.charcoal, fontWeight: FontWeight.bold, fontSize: 35),),
-      Image.network(car.imageURL, height: 500, width: 600,),
+      Image.network(car.imageURL, height: 200, width: 300,),
       Text('${car.make}' + ' ${car.model}', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color:AppColors.primaryColor), textAlign: TextAlign.left,),
       Text('Total investment: ' + '\$${car.money}', style: TextStyle(fontSize: 30))
     ],)

@@ -24,9 +24,8 @@ class MyApp extends StatelessWidget{
           secondary: AppColors.secondaryColor)
       ),
       home: accountCreated
-        ? const MyHomePage(title: 'home')
+        ? const MyHomePage(title: 'home', userId: 'USR00000', userName: '')
         : const IntroPage(title: 'Create an account')
-
   );
   }
 

@@ -8,10 +8,10 @@ import 'reviewclass.dart';
 //Display the information in the widget tree.
 Review carReview = Review(id: '');
 class ReviewPage extends StatefulWidget {
-  const ReviewPage({super.key, required this.title});
+  const ReviewPage({super.key, required this.title, required this.cars});
 
   final String title;
-
+  final List<String> cars;
   @override
   State<ReviewPage> createState() => _MyHomePageState();
 }

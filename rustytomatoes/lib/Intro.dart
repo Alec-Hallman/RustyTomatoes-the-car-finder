@@ -6,15 +6,20 @@ import 'package:rustytomatoes/home.dart';
 import 'theme.dart';
 import 'reviewclass.dart';
 import 'cardetails.dart';
+import 'dart:math';
 //Get a list of review id's from the api
 //when iterating for the item list, poke the api to get the description, title, and image url
 //Display the information in the widget tree.
-
+String url = 'https://us-east-2.aws.neurelo.com/rest/user/__one';
+Random random = Random();
+int userNumber = random.nextInt(90000);
+String idNumber = userNumber.toString();
+String ID = 'USR' + '$idNumber';
 final Map<String, dynamic> filterValues = {
   'number of doors': 0,
   'number of seats': 0,
-  'price': 0,
   'engine size': 0,
+  'price': 0,
   'year': 0,
   'make': '',
   'model': '',
@@ -45,6 +50,7 @@ class _IntroState extends State<IntroPage> {
   @override
   void initState(){
     super.initState();
+    print(ID);
   }
   @override
  Widget build(BuildContext context) {
@@ -95,7 +101,7 @@ class _IntroState extends State<IntroPage> {
                         child: ListView.builder(
                             itemCount: (filterOptions.length),
                             itemBuilder: (context, index) {
-                              if (index < 5) {
+                              if (index < 3) {
                                 return ListTile(
                                     title: Center(
                                         child: Row(children: [
@@ -143,7 +149,7 @@ class _IntroState extends State<IntroPage> {
                     SizedBox(height: 20),
                     Text('Please sign in with your near wallet', style: TextStyle(fontSize: 20)),
                     SizedBox(height: 40),
-                    Container( decoration: BoxDecoration(color: AppColors.charcoal, borderRadius: BorderRadius.all(Radius.circular(10))), child: TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'home')));}, child: Text('Sign in with Near', style: TextStyle(color: AppColors.secondaryColor))))
+                    Container( decoration: BoxDecoration(color: AppColors.charcoal, borderRadius: BorderRadius.all(Radius.circular(10))), child: TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'home', userId: ID, userName: name)));}, child: Text('Sign in with Near', style: TextStyle(color: AppColors.secondaryColor))))
 
                   ])
               ],
@@ -154,11 +160,11 @@ class _IntroState extends State<IntroPage> {
     );
   }
   void updateCar() {
-  carInformation.carid = filterValues['number of doors'] as int;
-  carInformation.userid = filterValues['number of seats'] as int;
-  carInformation.carprice = filterValues['price'] as int;
+  carInformation.cardoors = filterValues['number of doors'] as int;
+  carInformation.seats = filterValues['number of seats'] as String;
   carInformation.carenginesize = filterValues['engine size'] as int;
-  carInformation.caryear = filterValues['year'] as int;
+  carInformation.carprice = filterValues['price'] as String;
+  carInformation.caryear = filterValues['year'] as String;
   carInformation.carMake = filterValues['make'] as String;
   carInformation.carmodel = filterValues['model'] as String;
   carInformation.carenginetype = filterValues['engine type'] as String;

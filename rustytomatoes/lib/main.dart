@@ -7,8 +7,10 @@ import 'Intro.dart';
 import 'reviewclass.dart';
 bool accountCreated = false;
 
+//This page is responsible for establishing project wide information. For example the theme.
+
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp()); //start
 }
 
 class MyApp extends StatelessWidget{
@@ -23,9 +25,9 @@ class MyApp extends StatelessWidget{
           primary: AppColors.primaryColor,
           secondary: AppColors.secondaryColor)
       ),
-      home: accountCreated
-        ? const MyHomePage(title: 'home', userId: 'USR00000', userName: '')
-        : const IntroPage(title: 'Create an account')
+      home: accountCreated //if this isn't the first time openning the application
+        ? const MyHomePage(title: 'home', userId: 'USR00000', userName: '') //jump to the home page
+        : const IntroPage(title: 'Create an account')// go into the account creation process
   );
   }
 

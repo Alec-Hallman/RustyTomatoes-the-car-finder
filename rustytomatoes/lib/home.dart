@@ -13,11 +13,11 @@ String userName = '';
 bool reviewsLoading = true;
 String userId = '';
 var filterOptions = carInformation.information;
-List<String> carIds= ['CAR00001', 'CAR00002', 'CAR00003', 'CAR00004', 'CAR00005', 'CAR00006', 'CAR00007', 'CAR00008', 'CAR00009', 'CAR00010', ];
+List<String> carIds= ['CAR00001', 'CAR00002', 'CAR00003', 'CAR00004', 'CAR00005', 'CAR00006', 'CAR00007', 'CAR00008', 'CAR00009', 'CAR00010', ]; //Overwritten now, but list of cars to fetch to display on the homepage
 List<Review> reviews = [];
 List<String> cars = [];
-String token = 'neurelo_9wKFBp874Z5xFw6ZCfvhXWFzaCnC3LmvI9nv8D0zCYrVmjwCB8DHGjCcpUgR8+3GjFdKRsspI5NSEsGF3O9/fO1N5gop84dimC5dT8YYJtDvXQgJU9lGngGGWqfKcbJ6Scft0mfrZ2O/bpZvnJ3uYraVyqpu6lY4tDBQDErC5TqFpi6gHUIgvwAbmUExtJgj_OpE+iPGWhvU9IB1BNM81v0KVKg8UiYow/3RAolbB7GE=';
-final Map<String, dynamic> filterValues = {
+String token = 'neurelo_9wKFBp874Z5xFw6ZCfvhXWFzaCnC3LmvI9nv8D0zCYrVmjwCB8DHGjCcpUgR8+3GjFdKRsspI5NSEsGF3O9/fO1N5gop84dimC5dT8YYJtDvXQgJU9lGngGGWqfKcbJ6Scft0mfrZ2O/bpZvnJ3uYraVyqpu6lY4tDBQDErC5TqFpi6gHUIgvwAbmUExtJgj_OpE+iPGWhvU9IB1BNM81v0KVKg8UiYow/3RAolbB7GE='; //Nerelo key
+final Map<String, dynamic> filterValues = { //Map for creating searches for cars
   'number of doors': 0,
   'engine size': 0,
   'number of seats': " ",
@@ -47,13 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
   late String userName = widget.userName;
 
   @override
-  void initState(){
+  void initState(){ //on start set the user id (needs to be used to fetch key information)
     super.initState();
     userId = widget.userId;
     getAllCars();
   }
 
-  refreshState(){
+  refreshState(){ //reload page. used for refresh button.
     setState(() {
       
     });
@@ -61,19 +61,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold( //Widget tree start
       body: Center(
         child: Column(
           children: [
             const SizedBox(height: 20),
             const Text(
               'Auto Journey',
-              style: TextStyle(
+              style: TextStyle( //title and it's customization
                   fontSize: 55,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primaryColor),
             ),
-            Row( mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row( mainAxisAlignment: MainAxisAlignment.center, children: [ //row for search button and bar.
               const SizedBox(width: 300, child: TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
             )
             ],),
-            const SizedBox(height:10),
+            const SizedBox(height:10), //buffer
             Container(
               height: 40,
               width: 150,
@@ -102,9 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 15,
                 width: 150,
                 child: TextButton(
-                  onPressed: () {
-                    clearCarFilter();
-                    showModalBottomSheet(
+                  onPressed: () { //when the filter button is pressed
+                    clearCarFilter(); //clear the filters
+                    showModalBottomSheet( //pop up that flies up from the bottom displaying the filter customizations
                       context: context,
                       isScrollControlled: true,
                       builder: (BuildContext context) {
@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     );
                   },
-                  child: const Text(
+                  child: const Text( //button text
                     'Filter',
                     style: TextStyle(
                         color: AppColors.secondaryColor, fontSize: 19),
@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 70,
               child: Text(
-                'Recomended Reviews',
+                'Recomended Reviews', //headder
                 style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
@@ -153,10 +153,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: AppColors.primaryColor,
                 ),
-                child: ListView.builder(
-                  itemCount: reviews.length,
+                child: ListView.builder( //list for review display. 
+                  itemCount: reviews.length, //how many items to show
                   itemBuilder: (context, index) {
-                    return ListTile(
+                    return ListTile( //The reviews themselves.
                       title: Container(
                         width: 350,
                         height: 200,
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Column(
                           children: [
                             Center(
-                                child: Text(carReview.title,
+                                child: Text(carReview.title, //title (future feature)
                                     style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -175,9 +175,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             Row(children: [
                               Expanded(
                                   child: Text(
-                                reviews[index].description,
+                                reviews[index].description, //review content
                                 softWrap: true,
-                                overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.ellipsis, //text to wrap around and fade out after 7 lines.
                                 maxLines: 7,
                                 style: const TextStyle(
                                     fontSize: 14, color: AppColors.charcoal),
@@ -237,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class FilterWidget extends StatelessWidget {
+class FilterWidget extends StatelessWidget { //This widget is all the customization and display for the filter pop up.
   const FilterWidget({super.key});
   @override
   Widget build(BuildContext context) {
@@ -290,7 +290,7 @@ class FilterWidget extends StatelessWidget {
   }
 }
 
-void updateCar() async{
+void updateCar() async{ //Uses the map to set values for filter sarching.
   carInformation.cardoors = filterValues['number of doors'] as int;
   carInformation.carenginesize = filterValues['engine size'] as int;
   carInformation.seats = filterValues['number of seats'] as String;
@@ -307,17 +307,18 @@ void updateCar() async{
 
   String filter = '?select=%7B%0A++"car_id"%3A+true%0A%7D&filter=%7B%0A++"AND"%3A+%5B%0A++++%7B%0A++++++"car_make"%3A+%7B%0A++++++++"contains"%3A+"${carInformation.carMake}"%0A++++++%7D%0A++++%7D%2C%0A++++%7B%0A++++++"car_model"%3A+%7B%0A++++++++"contains"%3A+"${carInformation.carmodel}"%0A++++++%7D%0A++++%7D%2C%0A++++%7B%0A++++++"car_doors"%3A+%7B%0A++++++++"contains"%3A+"${carInformation.cardoors}"%0A++++++%7D%0A++++%7D%0A++%5D%0A%7D';
   String searchUrl = 'https://us-east-2.aws.neurelo.com/rest/car';
+//Setting API information
   String tempId ='';
   final response = await http.get(
-      Uri.parse(searchUrl + filter),
+      Uri.parse(searchUrl + filter), //Parsing URI to prepare to call GET function
       headers: {
         'X-API-KEY': token,
         'Content-Type': 'application/json',
       },
   );
 
-   if (response.statusCode == 200) {
-    getReviews();
+   if (response.statusCode == 200) { //check too see if it was successfull.
+    getReviews(); //Remake the reviews list.
     print('Successful search');
       carIds.clear(); //clear the car ids list.
       final Map<String, dynamic> data = jsonDecode(response.body);

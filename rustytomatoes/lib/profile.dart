@@ -31,7 +31,7 @@ Widget build(BuildContext context) {
           appBar: AppBar(
         title: Row(
           children: [
-            Expanded(
+            const Expanded(
               child: Center(
                 child: Text(
                   'Profile Page',

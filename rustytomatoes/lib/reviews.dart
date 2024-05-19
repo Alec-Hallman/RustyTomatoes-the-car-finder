@@ -6,7 +6,7 @@ import 'reviewclass.dart';
 //Get a list of review id's from the api
 //when iterating for the item list, poke the api to get the description, title, and image url
 //Display the information in the widget tree.
-Review carReview = Review();
+Review carReview = Review(id: '');
 class ReviewPage extends StatefulWidget {
   const ReviewPage({super.key, required this.title});
 

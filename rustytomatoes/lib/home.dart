@@ -6,9 +6,14 @@ import 'cardetails.dart';
 import 'reviewclass.dart';
 import 'postmaker.dart';
 import 'profile.dart';
-String dataBaseURL = 'https://us-east-1.aws.data.mongodb-api.com/app/data-fjjgdws/endpoint/data/v1';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 Car carInformation = Car();
+bool reviewsLoading = true;
 var filterOptions = carInformation.information;
+List<String> carIds= ['CAR00001', 'CAR00002', 'CAR00003', 'CAR00004', 'CAR00005', 'CAR00006', 'CAR00007'];
+List<Review> reviews = [];
+String token = 'neurelo_9wKFBp874Z5xFw6ZCfvhXWFzaCnC3LmvI9nv8D0zCYrVmjwCB8DHGjCcpUgR8+3GjFdKRsspI5NSEsGF3O9/fO1N5gop84dimC5dT8YYJtDvXQgJU9lGngGGWqfKcbJ6Scft0mfrZ2O/bpZvnJ3uYraVyqpu6lY4tDBQDErC5TqFpi6gHUIgvwAbmUExtJgj_OpE+iPGWhvU9IB1BNM81v0KVKg8UiYow/3RAolbB7GE=';
 final Map<String, dynamic> filterValues = {
   'number of doors': 0,
   'number of seats': 0,
@@ -27,18 +32,22 @@ final Map<String, dynamic> filterValues = {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
-
 class _MyHomePageState extends State<MyHomePage> {
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    updateReview();
+    getReviews();
+  }
+
+  refreshState(){
+    setState(() {
+      
+    });
   }
 
   @override
@@ -129,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: AppColors.green,
                 ),
                 child: ListView.builder(
-                  itemCount: 15,
+                  itemCount: reviews.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Container(
@@ -148,18 +157,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                         fontWeight: FontWeight.bold,
                                         color: AppColors.primaryColor))),
                             Row(children: [
-                              Padding(padding: const EdgeInsets.all(8.0),
-                              child:Image.network(
-                                carReview.imageURL,
-                                width: 150,
-                                height: 130,
-                                fit: BoxFit.cover,
-                                
-                              ),
-                              ),
                               Expanded(
                                   child: Text(
-                                carReview.description,
+                                reviews[index].description,
                                 softWrap: true,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 7,
@@ -176,6 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            IconButton(onPressed: refreshState, icon: Icon(Icons.refresh)),
             ButtonBar(
               alignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -228,6 +229,7 @@ class FilterWidget extends StatelessWidget {
       SizedBox(
           height: 500,
           child: ListView.builder(
+
               itemCount: (filterOptions.length),
               itemBuilder: (context, index) {
                 if (index < 5) {
@@ -292,11 +294,73 @@ void updateCar() {
   carInformation.carColor = filterValues['colour'] as String;
 }
 
-void updateReview() {
-  print('review Updated');
-  carReview.description =
-      'This is the description for the car. I am making it longer to test the scrolling on the preview. It needs to be even longer longer longer longer longer longer longer longer longer longer longer longer longer longer longer longer longer longer';
-  carReview.title = 'Lamborghini';
-  carReview.imageURL =
-      'https://hips.hearstapps.com/hmg-prod/images/dw-burnett-pcoty22-8260-1671143390.jpg';
+void getReviews() async {
+  for(int i = 0; i < carIds.length; i++){
+  String carid = carIds[i];
+  List<String> Reviews = []; 
+  final String url = 'https://us-east-2.aws.neurelo.com/rest/review';
+  final String queryParams = '?select=%7B%0A++"rev_id"%3A+true%0A%7D&filter=%7B%0A++"car_id"%3A+%7B%0A++++"contains"%3A+"CAR00001"%0A++%7D%0A%7D';
+  final String apiKey = 'neurelo_9wKFBp874Z5xFw6ZCfvhXWFzaCnC3LmvI9nv8D0zCYrVmjwCB8DHGjCcpUgR8+3GjFdKRsspI5NSEsGF3O9/fO1N5gop84dimC5dT8YYJtDvXQgJU9lGngGGWqfKcbJ6Scft0mfrZ2O/bpZvnJ3uYraVyqpu6lY4tDBQDErC5TqFpi6gHUIgvwAbmUExtJgj_OpE+iPGWhvU9IB1BNM81v0KVKg8UiYow/3RAolbB7GE=';
+
+  final response = await http.get(
+      Uri.parse(url + queryParams),
+      headers: {
+        'X-API-KEY': apiKey,
+        'Content-Type': 'application/json',
+      },
+  );
+
+   if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+
+      if (data.containsKey('data') && data['data'] is List) {
+        final List<dynamic> dataList = data['data'];
+
+        for (var item in dataList) {
+
+          if (item is Map<String, dynamic> && item.containsKey('rev_id') && item['rev_id'] != null) {
+            Review newReview = Review(id: '');
+            newReview.id = item['rev_id'];
+            if(!reviews.contains(newReview.id)){
+              Review listReview = await getReviewInfo(newReview);
+              reviews.add(listReview);
+            }
+          }
+        }
+      }
+
+      //print(reviews);
+    } else {
+      print('Failed to load data for car ID: $carid');
+    }
+  }
+}
+
+getReviewInfo(Review review) async{
+  final String url = 'https://us-east-2.aws.neurelo.com/rest/review';
+  final String queryParams = '?select=%7B%0A++"rev_review"%3A+true%0A%7D&filter=%7B%0A++"rev_id"%3A+%7B%0A++++"contains"%3A+"${review.id}"%0A++%7D%0A%7D';
+  final String apiKey = 'neurelo_9wKFBp874Z5xFw6ZCfvhXWFzaCnC3LmvI9nv8D0zCYrVmjwCB8DHGjCcpUgR8+3GjFdKRsspI5NSEsGF3O9/fO1N5gop84dimC5dT8YYJtDvXQgJU9lGngGGWqfKcbJ6Scft0mfrZ2O/bpZvnJ3uYraVyqpu6lY4tDBQDErC5TqFpi6gHUIgvwAbmUExtJgj_OpE+iPGWhvU9IB1BNM81v0KVKg8UiYow/3RAolbB7GE=';
+
+  final response = await http.get(
+      Uri.parse(url + queryParams),
+      headers: {
+        'X-API-KEY': apiKey,
+        'Content-Type': 'application/json',
+      },
+  );
+  if (response.statusCode == 200) {
+      //print('good neurello connection');
+      String description = '';
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      final List<dynamic> dataList = data['data'];
+      //print(dataList);
+      for (var item in dataList) {
+      if (item is Map<String, dynamic> && item.containsKey('rev_review') && item['rev_review'] != null) {
+        description = item['rev_review'];
+        //print(description);
+      }
+    }
+      Review returnReview = Review(id: review.id, description: description);
+      return returnReview;
+  }
 }

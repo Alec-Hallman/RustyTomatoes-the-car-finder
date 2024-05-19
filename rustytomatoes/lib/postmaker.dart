@@ -25,7 +25,7 @@ class _CreateState extends State<CreatePage> {
 Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
-      title: const Text('How has your car experience been?'),
+      title: const Center(child: Text('How has your car experience been?')),
     ),
     body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +39,16 @@ Widget build(BuildContext context) {
                 maxLines: null, // Allow unlimited lines
                 keyboardType: TextInputType.multiline, // Enable multiline input
                 decoration: InputDecoration(
-                  hintText: 'Type your post here!',
+                  hintText: 'Type your update here!',
+                  border: OutlineInputBorder(), // Add border for visual separation
+                ),
+              ),
+              SizedBox(height: 300),
+              TextField(
+                maxLines: null, // Allow unlimited lines
+                keyboardType: TextInputType.multiline, // Enable multiline input
+                decoration: InputDecoration(
+                  hintText: 'How much did this cost you?',
                   border: OutlineInputBorder(), // Add border for visual separation
                 ),
               ),
@@ -52,7 +61,7 @@ Widget build(BuildContext context) {
         color: AppColors.green),
         child: TextButton(onPressed: () { Navigator.pop(context); },
         child:const Text('Submit', style: TextStyle(color: AppColors.charcoal),))),
-        SizedBox(height: 20),
+        const SizedBox(height: 20, child: TextField()),
       ],
     ),
   );

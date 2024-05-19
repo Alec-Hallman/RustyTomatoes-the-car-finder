@@ -51,13 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'Auto Journey',
               style: TextStyle(
-                  fontSize: 60,
+                  fontSize: 55,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primaryColor),
             ),
-            const SizedBox(height: 40),
             Row( mainAxisAlignment: MainAxisAlignment.center, children: [
-              const SizedBox(width: 400, child: TextField(
+              const SizedBox(width: 300, child: TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(100)),

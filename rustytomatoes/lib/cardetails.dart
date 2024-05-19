@@ -14,6 +14,8 @@ class Car{
   String cartransmission = '';
   String carclass = '';
   String carColor = '';
+  String carPhoto = '';
+  String carInteriorfabric = '';
 
   List<String> information = ['number of doors', 'number of seats', 'price', 'engine size', 'year', 'make', 'model', 'engine type', 'body type', 'drive train', 'transmission', 'class', 'colour'];
 }
